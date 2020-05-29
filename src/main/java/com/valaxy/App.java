@@ -1,13 +1,32 @@
-package com.valaxy;
+pipeline {
+    agent any
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "welcome to devops!" );
+    stages {
+        stage ('Compile Stage') {
+
+            steps {
+                withMaven(maven : 'maven') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+
+        stage ('Testing Stage') {
+
+            steps {
+                withMaven(maven : 'maven') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'maven') {
+                    sh 'mvn deploy'
+                }
+            }
+        }
     }
 }
